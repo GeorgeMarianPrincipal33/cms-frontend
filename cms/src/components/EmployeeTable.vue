@@ -1,7 +1,7 @@
 <template>
   <div class="center">
     <div>
-      <table id="entries">
+      <table>
         <thead>
           <tr>
             <th> </th>
@@ -13,9 +13,19 @@
             <th> </th>
           </tr>
         </thead>
-
+            
         <tbody>
-    
+            <employee-entry
+                v-for="entry in entries"
+                :key="entry.id"
+                :profileImage="entry.profileImage"
+                :name="entry.name"
+                :surname="entry.surname"
+                :email="entry.email"
+                :gender="entry.gender"
+                :birthdate="entry.birthdate">
+
+            </employee-entry>
         </tbody>
       </table>
     </div>
@@ -23,9 +33,17 @@
 </template>
 
 <script>
+import EmployeeEntry from './EmployeeEntry.vue'
 
 export default {
-  name: 'App'
+  name: 'EmployeeTable',
+  props: {
+      entries: Array
+  },
+
+  components: {
+    EmployeeEntry
+  }
 }
 </script>
 
