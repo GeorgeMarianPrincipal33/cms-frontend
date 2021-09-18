@@ -27,7 +27,7 @@ export default {
 <style>
 .btn-newentry{
   margin-bottom: 2%;
-
+  margin-right: 1%;
   color: rgb(46, 43, 43);
   background-color: #CEE5D0;
   border-radius: 4px;

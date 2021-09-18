@@ -1,19 +1,26 @@
 <template>
   <div class="center">
-    <employee-table :entries="tableEntries"></employee-table>
+    <div>
+      <user-buttons></user-buttons>
+      <employee-table :entries="tableEntries"></employee-table>
+    </div>
+    
   </div>
 </template>
 
 <script>
+// import { getAllEmployees } from './scripts/connection.js'
+
 import EmployeeTable from './components/EmployeeTable.vue'
-import { getAllEmployees } from './scripts/connection.js'
+import UserButtons from './components/UseButtons.vue'
+
 
 export default {
   name: 'App',
-  components: { EmployeeTable },
+  components: { EmployeeTable, UserButtons },
 
   data() {
-    getAllEmployees()
+    // getAllEmployees()
     return {
       tableEntries: [
         {

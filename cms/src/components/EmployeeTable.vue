@@ -1,5 +1,4 @@
 <template>
-  <div class="center">
     <div>
       <table>
         <thead>
@@ -29,7 +28,6 @@
         </tbody>
       </table>
     </div>
-  </div>
 </template>
 
 <script>
