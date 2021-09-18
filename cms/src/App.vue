@@ -6,12 +6,14 @@
 
 <script>
 import EmployeeTable from './components/EmployeeTable.vue'
+import { getAllEmployees } from './scripts/connection.js'
 
 export default {
   name: 'App',
   components: { EmployeeTable },
 
   data() {
+    getAllEmployees()
     return {
       tableEntries: [
         {
@@ -20,16 +22,9 @@ export default {
           surname: "surtest",
           email: "test@email.com",
           gender: 1,
-          birthdate: "2021-10-10"
-        }, 
-        {
-          id: 2,
-          name: "test1",
-          surname: "surtest1",
-          email: "tes1t@email.com",
-          gender: 0,
-          birthdate: "2021-9-9"
-        }, 
+          birthdate: "2021-10-10",
+          profileImage: "undefined"
+        }         
       ]
     }
   },

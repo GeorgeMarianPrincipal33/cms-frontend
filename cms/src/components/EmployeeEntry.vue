@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <td>{{ profileImage }}</td>
+        <td> <img class="profile-img" v-bind:src="getImage(profileImage)"></td>
         <td>{{ name }}</td>
         <td>{{ surname }}</td>
         <td>{{ email }}</td>
@@ -12,7 +12,15 @@
 
 <script>
 export default {
-    props: ['profileImage', 'name', 'surname', 'email', 'gender', 'birthdate']
+    props: ['profileImage', 'name', 'surname', 'email', 'gender', 'birthdate'],
+    methods: {
+        getImage(image) {
+            if(image === 'undefined')
+                return require('@/assets/no_profile_image.png')
+
+            return image
+        }
+    }
 }
 </script>
 
@@ -28,5 +36,12 @@ export default {
   font-size: 14px;
   border: 1px;
   cursor: pointer;
+}
+
+.profile-img {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 </style>
