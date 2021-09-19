@@ -1,13 +1,16 @@
 <template>
   <div>
-    <modal v-if="showModal" @close-modal="toggleModal()" @create-employee="addNewEmployee"></modal>
+    <modal
+      v-if="showModal"
+      @close-modal="toggleModal()"
+      @create-employee="addNewEmployee"
+    ></modal>
 
     <div class="center">
-    <div>
-      <user-buttons @add-employee="toggleModal()"></user-buttons>
-      <employee-table :entries="tableEntries"></employee-table>
-    </div>
-    
+      <div>
+        <user-buttons @add-employee="toggleModal()"></user-buttons>
+        <employee-table :entries="tableEntries"></employee-table>
+      </div>
     </div>
   </div>
 </template>
@@ -15,12 +18,12 @@
 <script>
 // import { getAllEmployees } from './scripts/connection.js'
 
-import EmployeeTable from './components/EmployeeTable.vue'
-import UserButtons from './components/UseButtons.vue'
-import Modal from './components/Modal.vue'
+import EmployeeTable from "./components/EmployeeTable.vue";
+import UserButtons from "./components/UseButtons.vue";
+import Modal from "./components/Modal.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: { EmployeeTable, UserButtons, Modal },
 
   data() {
@@ -35,30 +38,46 @@ export default {
           email: "test@email.com",
           gender: 1,
           birthdate: "2021-10-10",
-          profileImage: "undefined"
-        }         
-      ]
-    }
+          profileImage: "undefined",
+        },
+      ],
+    };
   },
 
   methods: {
-    toggleModal(){
-      this.showModal = !this.showModal
+    toggleModal() {
+      this.showModal = !this.showModal;
     },
 
-    addNewEmployee(employee){
+    addNewEmployee(employee) {
       //send to backend
 
-      // for testing
-      this.tableEntries.push(employee)
-    }
-  }
-  
-}
+      
+      employee["id"] = this.tableEntries[this.tableEntries.length - 1].id + 1;      
+
+      var imageReader = new FileReader();
+      imageReader.addEventListener("load", () => {
+        var profilePic = imageReader.result;
+        employee.profileImage = profilePic
+
+        // for testing
+        this.tableEntries.push(employee);
+      });
+      
+      if (employee.profileImage == null) {
+        employee.profileImage = 'undefined'
+        // for testing
+        this.tableEntries.push(employee);
+
+      } else {
+        imageReader.readAsDataURL(employee.profileImage);
+      }
+    },
+  },
+};
 </script>
 
 <style>
-
 .center {
   display: flex;
   align-items: center;
