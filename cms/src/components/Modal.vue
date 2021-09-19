@@ -29,7 +29,7 @@
         </div>
 
         <div>
-          <input id="new-image" type="file"/>
+          <input id="new-image" type="file" v-on:change="getFile"/>
         </div>
 
         <div>
@@ -51,16 +51,24 @@ export default {
             employeeEmail: '',
             employeeGender: 'Male',
             employeeBirthdate: '',
-            employeeProfileImage: '',
+            employeeProfileImage: null,
         }
     },
 
     methods: {
+        getFile(e){
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+                return;
+
+            this.employeeProfileImage = files[0]
+        },
+
         submitData(){
             this.$emit('create-employee', 
             {
                 name: this.employeeName, 
-                surname: this.employeeSurame, 
+                surname: this.employeeSurname, 
                 email: this.employeeEmail,
                 gender: this.employeeGender,
                 birthdate: this.employeeBirthdate,
