@@ -6,34 +6,49 @@
 
       <form class="modal-form" @submit.prevent="submitData">
         <div>
-          <input type="text" id="new-name" name="new-name" placeholder="Name" v-model="employeeName"/>
+          <input
+            type="text"
+            name="new-name"
+            placeholder="Name"
+            v-model="employeeName"
+          />
         </div>
 
         <div>
-          <input type="text" name="new-surname" placeholder="Surname" v-model="employeeSurname"/>
+          <input
+            type="text"
+            name="new-surname"
+            placeholder="Surname"
+            v-model="employeeSurname"
+          />
         </div>
 
         <div>
-          <input type="text" id="new-email" name="new-email"  placeholder="Email" v-model="employeeEmail"/>
+          <input
+            type="text"
+            name="new-email"
+            placeholder="Email"
+            v-model="employeeEmail"
+          />
         </div>
 
         <div>
-          <select name="new-gender" id="new-gender" v-model="employeeGender">
+          <select name="new-gender" v-model="employeeGender">
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
         </div>
 
         <div>
-          <input type="date" id="new-birthdate" name="new-birthdate" v-model="employeeBirthdate"/>
+          <input type="date" name="new-birthdate" v-model="employeeBirthdate" />
         </div>
 
         <div>
-          <input id="new-image" type="file" v-on:change="getFile"/>
+          <input type="file" v-on:change="getFile" />
         </div>
 
         <div>
-          <button class="btn-newentry" id="createNewEntry">Create</button>
+          <button class="btn-newentry">Create</button>
         </div>
       </form>
     </div>
@@ -42,41 +57,92 @@
 
 <script>
 export default {
-    emits: ['close-modal', 'create-employee'],
+  emits: ["close-modal", "create-employee"],
 
-    data() {
-        return {
-            employeeName: '',
-            employeeSurname: '',
-            employeeEmail: '',
-            employeeGender: 'Male',
-            employeeBirthdate: '',
-            employeeProfileImage: null,
-        }
+  data() {
+    return {
+      employeeName: "",
+      employeeSurname: "",
+      employeeEmail: "",
+      employeeGender: "Male",
+      employeeBirthdate: "",
+      employeeProfileImage: null,
+    };
+  },
+
+  methods: {
+    getFile(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+
+      this.employeeProfileImage = files[0];
     },
 
-    methods: {
-        getFile(e){
-            var files = e.target.files || e.dataTransfer.files;
-            if (!files.length)
-                return;
+    submitData() {
+      const employee = {
+        name: this.employeeName,
+        surname: this.employeeSurname,
+        email: this.employeeEmail,
+        gender: this.employeeGender,
+        birthdate: this.employeeBirthdate,
+        profileImage: this.employeeProfileImage,
+      };
 
-            this.employeeProfileImage = files[0]
-        },
+      if (this.validateData(employee) == true) {
+        this.$emit("create-employee", employee);
+        this.$emit("close-modal");
+      }
+    },
 
-        submitData(){
-            this.$emit('create-employee', 
-            {
-                name: this.employeeName, 
-                surname: this.employeeSurname, 
-                email: this.employeeEmail,
-                gender: this.employeeGender,
-                birthdate: this.employeeBirthdate,
-                profileImage: this.employeeProfileImage
-            })
-            this.$emit('close-modal')
-        }
-    }
+    validateData(employee) {
+      var errorMessage = "";
+      if (employee.name === "") {
+        errorMessage += "No name was provided!\n";
+      }
+
+      if (employee.surname === "") {
+        errorMessage += "No surname was provided!\n";
+      }
+
+      if (this.validateEmail(employee.email) == false) {
+        errorMessage += "Invalid email format!\n";
+      }
+
+      if (this.validateDate(employee.birthdate) == false) {
+        errorMessage += "The employee must be at least 16 years old!\n";
+      }
+
+      if (errorMessage.length != 0) {
+        alert(errorMessage);
+        return false;
+      }
+
+      return true;
+    },
+
+    validateEmail(email) {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      return re.test(String(email).toLowerCase());
+    },
+
+    validateDate(user_date) {
+      if (!user_date) {
+        return false;
+      }
+
+      var birthdate = new Date(user_date);
+      if (this.calculateAge(birthdate) < 16) return false;
+
+      return true;
+    },
+
+    calculateAge(birthday) {
+      var ageDifMs = Date.now() - birthday.getTime();
+      var ageDate = new Date(ageDifMs); // miliseconds from epoch
+      return Math.abs(ageDate.getUTCFullYear() - 1970);
+    },
+  },
 };
 </script>
 
@@ -125,5 +191,4 @@ export default {
   text-decoration: none;
   cursor: pointer;
 }
-
 </style>
