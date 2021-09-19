@@ -17,13 +17,14 @@
             <employee-entry
                 v-for="entry in entries"
                 :key="entry.id"
-                :profileImage="entry.profileImage"
+                :employeeId="entry.id"
                 :name="entry.name"
                 :surname="entry.surname"
                 :email="entry.email"
                 :gender="entry.gender"
-                :birthdate="entry.birthdate">
-
+                :birthdate="entry.birthdate"
+                :profileImage="entry.profileImage"
+                @remove-employee="$emit('remove-employee', $event)">
             </employee-entry>
         </tbody>
       </table>
@@ -35,12 +36,19 @@ import EmployeeEntry from './EmployeeEntry.vue'
 
 export default {
   name: 'EmployeeTable',
+  emits: ["remove-employee"],
   props: {
       entries: Array
   },
 
   components: {
     EmployeeEntry
+  },
+
+  methods: {
+    test(id){
+      this.$emit('remove-employee', id)
+    }
   }
 }
 </script>

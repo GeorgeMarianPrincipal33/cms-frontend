@@ -6,13 +6,14 @@
     <td>{{ email }}</td>
     <td>{{ formatGender(gender) }}</td>
     <td>{{ formatDate(birthdate) }}</td>
-    <td><button class="btn-newentry">Remove</button></td>
+    <td><button class="btn-newentry" @click="$emit('remove-employee', employeeId)">Remove</button></td>
   </tr>
 </template>
 
 <script>
 export default {
-  props: ["profileImage", "name", "surname", "email", "gender", "birthdate"],
+  props: ["employeeId", "name", "surname", "email", "gender", "birthdate", "profileImage"],
+  emits: ["remove-employee"],
   methods: {
     getImage(image) {
       if (image === "undefined")

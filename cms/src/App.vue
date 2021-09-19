@@ -9,7 +9,7 @@
     <div class="center">
       <div>
         <user-buttons @add-employee="toggleModal()"></user-buttons>
-        <employee-table :entries="tableEntries"></employee-table>
+        <employee-table :entries="tableEntries" @remove-employee="removeEmployee"></employee-table>
       </div>
     </div>
   </div>
@@ -73,6 +73,10 @@ export default {
         imageReader.readAsDataURL(employee.profileImage);
       }
     },
+
+    removeEmployee(id){
+      this.tableEntries = this.tableEntries.filter(element => element.id !== id)
+    }
   },
 };
 </script>
