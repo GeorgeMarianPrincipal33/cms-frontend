@@ -1,10 +1,14 @@
 <template>
-  <div class="center">
+  <div>
+    <modal v-if="showModal" @close-modal="toggleModal()"></modal>
+
+    <div class="center">
     <div>
-      <user-buttons></user-buttons>
+      <user-buttons @add-employee="toggleModal()"></user-buttons>
       <employee-table :entries="tableEntries"></employee-table>
     </div>
     
+    </div>
   </div>
 </template>
 
@@ -13,15 +17,16 @@
 
 import EmployeeTable from './components/EmployeeTable.vue'
 import UserButtons from './components/UseButtons.vue'
-
+import Modal from './components/Modal.vue'
 
 export default {
   name: 'App',
-  components: { EmployeeTable, UserButtons },
+  components: { EmployeeTable, UserButtons, Modal },
 
   data() {
     // getAllEmployees()
     return {
+      showModal: false,
       tableEntries: [
         {
           id: 1,
@@ -35,6 +40,13 @@ export default {
       ]
     }
   },
+
+  methods: {
+    toggleModal(){
+      this.showModal = !this.showModal
+      console.log('yoooo')
+    }
+  }
   
 }
 </script>

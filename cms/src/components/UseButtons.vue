@@ -1,6 +1,6 @@
 <template>
     <div >
-        <button class="btn-newentry" id="openModal">New entry</button>
+        <button @click="$emit('add-employee')" class="btn-newentry">New entry</button>
         <button class="btn-newentry" id="sortEntriesByName">Sort by Name</button>
 
         
@@ -11,7 +11,7 @@
 
 <script>
 export default ({
-    
+    emits: ['add-employee']
 })
 
 </script>
