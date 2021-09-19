@@ -4,7 +4,7 @@
     <td>{{ name }}</td>
     <td>{{ surname }}</td>
     <td>{{ email }}</td>
-    <td>{{ gender }}</td>
+    <td>{{ formatGender(gender) }}</td>
     <td>{{ formatDate(birthdate) }}</td>
     <td><button class="btn-newentry">Remove</button></td>
   </tr>
@@ -12,31 +12,48 @@
 
 <script>
 export default {
-    props: ['profileImage', 'name', 'surname', 'email', 'gender', 'birthdate'],
-    methods: {
-        getImage(image) {
-            if(image === 'undefined')
-                return require('@/assets/no_profile_image.png')
+  props: ["profileImage", "name", "surname", "email", "gender", "birthdate"],
+  methods: {
+    getImage(image) {
+      if (image === "undefined")
+        return require("@/assets/no_profile_image.png");
 
-            return image
-        },
+      return image;
+    },
 
-        formatDate(birthdate){
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Octomber', 'November', 'December']
+    formatDate(birthdate) {
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "Octomber",
+        "November",
+        "December",
+      ];
 
-            const date = new Date(birthdate)
+      const date = new Date(birthdate);
 
-            var year = date.getFullYear()
-            var monthIndex = Number(date.getMonth())
-            var month = months[monthIndex]
-            var day = date.getDate()
+      var year = date.getFullYear();
+      var monthIndex = Number(date.getMonth());
+      var month = months[monthIndex];
+      var day = date.getDate();
 
-            return `${day} ${month} ${year}`
-        },
+      return `${day} ${month} ${year}`;
+    },
 
+    formatGender(gender) {
+      if (gender == 0) return "Male";
 
-    }
-}
+      return "Female";
+    },
+  },
+};
 </script>
 
 <style>
