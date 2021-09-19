@@ -1,6 +1,6 @@
 <template>
   <div>
-    <modal v-if="showModal" @close-modal="toggleModal()"></modal>
+    <modal v-if="showModal" @close-modal="toggleModal()" @create-employee="addNewEmployee"></modal>
 
     <div class="center">
     <div>
@@ -44,7 +44,13 @@ export default {
   methods: {
     toggleModal(){
       this.showModal = !this.showModal
-      console.log('yoooo')
+    },
+
+    addNewEmployee(employee){
+      //send to backend
+
+      // for testing
+      this.tableEntries.push(employee)
     }
   }
   

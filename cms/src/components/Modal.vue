@@ -2,59 +2,73 @@
   <div class="modal">
     <!-- Modal content -->
     <div class="modal-content">
-      <!-- <div class="close" > -->
-        <span class="close" @click="$emit('close-modal')">&times;</span>
-      <!-- </div> -->
+      <span class="close" @click="$emit('close-modal')">&times;</span>
 
-      <div class="modal-form">
+      <form class="modal-form" @submit.prevent="submitData">
         <div>
-          <input type="text" id="new-name" name="new-name" placeholder="Nume" />
+          <input type="text" id="new-name" name="new-name" placeholder="Name" v-model="employeeName"/>
         </div>
 
         <div>
-          <input
-            type="text"
-            id="new-surname"
-            name="new-surname"
-            placeholder="Prenume"
-          />
+          <input type="text" name="new-surname" placeholder="Surname" v-model="employeeSurname"/>
         </div>
 
         <div>
-          <input
-            type="text"
-            id="new-email"
-            name="new-email"
-            placeholder="Email"
-          />
+          <input type="text" id="new-email" name="new-email"  placeholder="Email" v-model="employeeEmail"/>
         </div>
 
         <div>
-          <select name="new-gender" id="new-gender">
+          <select name="new-gender" id="new-gender" v-model="employeeGender">
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
         </div>
 
         <div>
-          <input type="date" id="new-birthdate" name="new-birthdate" />
+          <input type="date" id="new-birthdate" name="new-birthdate" v-model="employeeBirthdate"/>
         </div>
 
         <div>
-          <input id="new-image" type="file" />
+          <input id="new-image" type="file"/>
         </div>
 
         <div>
           <button class="btn-newentry" id="createNewEntry">Create</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-    emits: ['close-modal']
+    emits: ['close-modal', 'create-employee'],
+
+    data() {
+        return {
+            employeeName: '',
+            employeeSurname: '',
+            employeeEmail: '',
+            employeeGender: 'Male',
+            employeeBirthdate: '',
+            employeeProfileImage: '',
+        }
+    },
+
+    methods: {
+        submitData(){
+            this.$emit('create-employee', 
+            {
+                name: this.employeeName, 
+                surname: this.employeeSurame, 
+                email: this.employeeEmail,
+                gender: this.employeeGender,
+                birthdate: this.employeeBirthdate,
+                profileImage: this.employeeProfileImage
+            })
+            this.$emit('close-modal')
+        }
+    }
 };
 </script>
 
