@@ -83,7 +83,7 @@ export default {
         name: this.employeeName,
         surname: this.employeeSurname,
         email: this.employeeEmail,
-        gender: this.employeeGender,
+        gender: (this.employeeGender === 'Male') ? 0 : 1,
         birthdate: this.employeeBirthdate,
         profileImage: this.employeeProfileImage,
       };
@@ -142,6 +142,7 @@ export default {
       var ageDate = new Date(ageDifMs); // miliseconds from epoch
       return Math.abs(ageDate.getUTCFullYear() - 1970);
     },
+
   },
 };
 </script>
