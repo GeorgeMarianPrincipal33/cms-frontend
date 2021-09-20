@@ -1,9 +1,18 @@
-import { axios } from "axios"
+const BACKEND = "https://localhost:5001/Employee/";
 
-const BACKEND = 'https://localhost:44344/Employee/'
+export async function getAllEmployees() {
+  const url = BACKEND + "GetEmployees/";
 
-export async function getAllEmployees(){
-    let employees = await axios.get(BACKEND + 'GetEmployees/')
+  var axios = require("axios");
 
-    return employees
+  const instance = axios.create({
+    withCredentials: false,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      crossorigin: "true",
+    },
+  });
+
+  return instance.get(url);
 }
