@@ -96,6 +96,10 @@ export default {
         searchByName(name).then((response) => {
           this.tableEntries = response.data;
         });
+      } else {
+        getAllEmployees().then((response) => {
+          this.tableEntries = response.data;
+        });
       }
     },
   },
@@ -104,7 +108,7 @@ export default {
     getAllEmployees().then((response) => {
       this.tableEntries = response.data;
     });
-  }
+  },
 };
 </script>
 
