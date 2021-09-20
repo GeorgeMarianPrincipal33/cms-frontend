@@ -2,13 +2,17 @@
   <div>
     <modal
       v-if="showModal"
-      @close-modal="toggleModal()"
+      @close-modal="toggleModal"
       @create-employee="addNewEmployee"
     ></modal>
 
     <div class="center">
       <div>
-        <user-buttons @add-employee="toggleModal()"></user-buttons>
+        <user-buttons
+          @add-employee="toggleModal"
+          @sort="sortEmployees"
+          @search-name="searchEmployeeBtName"
+        ></user-buttons>
         <employee-table
           :entries="tableEntries"
           @remove-employee="removeEmployee"
@@ -19,7 +23,13 @@
 </template>
 
 <script>
-import { getAllEmployees } from './scripts/connection.js'
+import {
+  getAllEmployees,
+  addEmployee,
+  removeEmployeeFromDb,
+  sortByName,
+  searchByName,
+} from "./scripts/connection.js";
 
 import EmployeeTable from "./components/EmployeeTable.vue";
 import UserButtons from "./components/UseButtons.vue";
@@ -30,10 +40,6 @@ export default {
   components: { EmployeeTable, UserButtons, Modal },
 
   data() {
-    getAllEmployees().then((response) => {
-      this.tableEntries = response.data
-    })
-
     return {
       showModal: false,
       tableEntries: [],
@@ -47,33 +53,58 @@ export default {
 
     addNewEmployee(employee) {
       //send to backend
-
-      employee["id"] = this.tableEntries[this.tableEntries.length - 1].id + 1;
+      const createEmployee = () => {
+        addEmployee(employee).then((response) => {
+          employee["id"] = response.data;
+          this.tableEntries.push(employee);
+        });
+      };
 
       var imageReader = new FileReader();
       imageReader.addEventListener("load", () => {
         var profilePic = imageReader.result;
         employee.profileImage = profilePic;
 
-        // for testing
-        this.tableEntries.push(employee);
+        createEmployee();
       });
 
       if (employee.profileImage == null) {
         employee.profileImage = "undefined";
-        // for testing
-        this.tableEntries.push(employee);
+
+        createEmployee();
       } else {
         imageReader.readAsDataURL(employee.profileImage);
       }
     },
 
     removeEmployee(id) {
-      this.tableEntries = this.tableEntries.filter(
-        (element) => element.id !== id
-      );
+      removeEmployeeFromDb(id).then(() => {
+        this.tableEntries = this.tableEntries.filter(
+          (element) => element.id !== id
+        );
+      });
+    },
+
+    sortEmployees() {
+      sortByName().then((response) => {
+        this.tableEntries = response.data;
+      });
+    },
+
+    searchEmployeeBtName(name) {
+      if (name !== "") {
+        searchByName(name).then((response) => {
+          this.tableEntries = response.data;
+        });
+      }
     },
   },
+
+  mounted() {
+    getAllEmployees().then((response) => {
+      this.tableEntries = response.data;
+    });
+  }
 };
 </script>
 

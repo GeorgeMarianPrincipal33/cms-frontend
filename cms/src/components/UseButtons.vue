@@ -1,17 +1,23 @@
 <template>
     <div >
         <button @click="$emit('add-employee')" class="btn-newentry">New entry</button>
-        <button class="btn-newentry" id="sortEntriesByName">Sort by Name</button>
+        <button @click="$emit('sort')" class="btn-newentry">Sort by Name</button>
 
         
-        <input type="search" id="searchBar" class="input-textfield" placeholder="Name" >
-        <button class="btn-newentry btn-search"  id="searchByName">Search</button>
+        <input type="search" class="input-textfield" placeholder="Name" v-model="name">
+        <button @click="$emit('search-name', name)" class="btn-newentry btn-search">Search</button>
     </div>
 </template>
 
 <script>
 export default ({
-    emits: ['add-employee']
+    emits: ['add-employee', 'sort', 'search-name'],
+
+    data(){
+      return {
+        name: ''
+      }
+    }
 })
 
 </script>
